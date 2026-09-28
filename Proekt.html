@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+    function saveBook(bookName){
+
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    if(!favorites.includes(bookName)){
+        favorites.push(bookName);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+
+        showHeart();
+    } 
+}
+function showHeart(){
+
+    let heart = document.createElement("div");
+    heart.innerText = "💖";
+    heart.classList.add("heart");
+
+    heart.style.position = "fixed";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = "80%";
+    heart.style.fontSize = "30px";
+    heart.style.animation = "floatUp 1s ease-out forwards";
+    heart.style.pointerEvents = "none";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 1000);
+}
+
+    function searchBooks(){
+
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        let books = document.getElementsByClassName("book");
+
+        for(let i = 0; i < books.length; i++){
+
+            let title = books[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+
+            if(title.includes(input)){
+                books[i].style.display = "block";
+            } else {
+                books[i].style.display = "none";
+            }
+        }
+    }
+
+function removeBook(bookName){
+
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    favorites = favorites.filter(b => b !== bookName);
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+if(!favorites.includes(bookName)){
+    favorites.push(bookName);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    showHeart();
+} else {
+    alert("Already in favorites ❤️");
+}
+
+</script>
+
+<title>Library</title>
+
+
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#2c3e50,#4ca1af);
+    color:white;
+    
+}
+
+header{
+    text-align:center;
+    padding:60px 20px;
+    
+ 
+}
+
+
+header h1{
+    font-size:60px;
+    margin-bottom:10px;
+}
+
+header h2{
+    color:#ffe082;
+    margin-bottom:25px;
+}
+
+header p{
+    max-width:700px;
+    margin:auto;
+    font-size:18px;
+    line-height:1.7;
+}
+
+.books{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+    padding:50px;
+}
+
+.book{
+    background:white;
+    color:#333;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 10px 20px rgba(0,0,0,.3);
+    transition:.3s;
+}
+
+.book:hover{
+    transform:translateY(-10px);
+}
+
+.cover{
+    width:120px;
+    height:170px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.book button{
+    background:#4CAF50;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.book button:hover{
+    background:#388E3C;
+}
+
+.favorite-btn{
+    background:#e91e63;
+}
+
+.favorite-btn:hover{
+    background:#c2185b;
+}
+.book{
+    opacity:0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s forwards;
+}
+
+@keyframes fadeIn{
+    to{
+        opacity:1;
+        transform: translateY(0);
+    }
+}
+.book:hover{
+    transform: scale(1.08);
+    transition: 0.3s;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+.favorite-btn:active{
+    transform: scale(1.2);
+}
+html{
+    scroll-behavior: smooth;
+}
+.book button:hover{
+    box-shadow: 0 0 15px rgba(76,175,80,0.7);
+}
+header h1{
+    animation: slideDown 1s ease;
+}
+
+@keyframes slideDown{
+    from{
+        transform: translateY(-30px);
+        opacity:0;
+    }
+    to{
+        transform: translateY(0);
+        opacity:1;
+    }
+}
+body{
+    animation: fadeBody 1s ease;
+}
+
+@keyframes fadeBody{
+    from{ opacity:0; }
+    to{ opacity:1; }
+}
+.heart{
+    position:fixed;
+    font-size:30px;
+    animation: floatUp 1s ease-out forwards;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    from{
+        opacity:1;
+        transform: translateY(0);
+    }
+    to{
+        opacity:0;
+        transform: translateY(-100px);
+    }
+}
+
+
+
+</style>
+</head>
+
+
+<body>
+
+<header>
+<h1>📚 Digital Library</h1>
+<h2>by DamyanParaleev</h2>
+<p>Welcome to my online library. Choose a book and start reading.</p>
+
+<a href="favorites.html">
+    <button style="
+        background:#ff9800;
+        color:white;
+        border:none;
+        padding:12px 20px;
+        border-radius:8px;
+        cursor:pointer;
+        margin-top:20px;
+    ">
+        ❤️ Favorites (Basket)
+    </button>
+</a>
+<input type="text" id="searchInput" placeholder="Search books..." onkeyup="searchBooks()"
+style="
+    padding:12px;
+    width:250px;
+    border-radius:8px;
+    border:none;
+    margin-top:15px;
+    font-size:16px;
+">
+</header>
+
+<div class="books">
+
+<div class="book">
+    <img class="cover" src="./covers/sherlock.jpg/the-complete-sherlock-holmes-collection-9781667206264_hr.jpg">
+    <h3>🔎 Sherlock Holmes</h3>
+    <p>Arthur Conan Doyle</p>
+    <a href="book1.html"><button>📖 Read Book</button></a>
+    <button class="favorite-btn" onclick="saveBook('Sherlock Holmes')">❤️ Favorite</button>
+</div>
+
+<div class="book">
+    <img class="cover" src="./covers/pride.jpg/pride.jpg">
+    <h3>💖 Pride and Prejudice</h3>
+    <p>Jane Austen</p>
+    <a href="book2.html"><button>📖 Read Book</button></a>
+    <button class="favorite-btn" onclick="saveBook('Pride and Prejudice')">❤️ Favorite</button>
+</div>
+
+<div class="book">
+    <img class="cover" src="./covers/alice.jpg/alice.jpg">
+    <h3>🐇 Alice in Wonderland</h3>
+    <p>Lewis Carroll</p>
+    <a href="book3.html"><button>📖 Read Book</button></a>
+    <button class="favorite-btn" onclick="saveBook('Alice in Wonderland')">❤️ Favorite</button>
+</div>
+
+<div class="book">
+    <img class="cover" src="./covers/dracula.jpg/dracola.jpg">
+    <h3>🧛 Dracula</h3>
+    <p>Bram Stoker</p>
+    <a href="book4.html"><button>📖 Read Book</button></a>
+    <button class="favorite-btn" onclick="saveBook('Dracula')">❤️ Favorite</button>
+</div>
+
+<div class="book">
+    <img class="cover" src="./covers/timemachine.jpg/Time mashine.jpg">
+    <h3>⏳ The Time Machine</h3>
+    <p>H. G. Wells</p>
+    <a href="book5.html"><button>📖 Read Book</button></a>
+    <button class="favorite-btn" onclick="saveBook('The Time Machine')">❤️ Favorite</button>
+</div>
+
+<div class="book">
+    <img class="cover" src="./covers/treasure.jpg/Treasure Island.jpg">
+    <h3>🏴‍☠️ Treasure Island</h3>
+    <p>Robert Louis Stevenson</p>
+    <a href="book6.html"><button>📖 Read Book</button></a>
+    <button class="favorite-btn" onclick="saveBook('Treasure Island')">❤️ Favorite</button>
+</div>
+
+<div class="book">
+    <img class="cover" src="./covers/oz.jpg/images.jpg">
+    <h3>🌈 The Wonderful Wizard of Oz</h3>
+    <p>L. Frank Baum</p>
+    <a href="book7.html"><button>📖 Read Book</button></a>
+    <button class="favorite-btn" onclick="saveBook('The Wonderful Wizard of Oz')">❤️ Favorite</button>
+</div>
+
+</div>
+
+</body>
+</html>

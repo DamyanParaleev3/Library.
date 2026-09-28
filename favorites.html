@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Favorites</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:linear-gradient(135deg,#2c3e50,#4ca1af);
+    color:white;
+    text-align:center;
+    margin:0;
+
+}
+.home-button{
+    position:fixed;
+    top:20px;
+    left:20px;
+
+    background:#2196F3;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    font-size:17px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+
+.home-button:hover{
+    background:#1976D2;
+}
+h1{
+    margin-top:40px;
+}
+
+.container{
+    max-width:800px;
+    margin:40px auto;
+}
+
+.book{
+    background:white;
+    color:black;
+    margin:15px;
+    padding:20px;
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+button{
+    background:#4CAF50;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#388E3C;
+}
+
+.remove{
+    background:#e91e63;
+}
+
+.remove:hover{
+    background:#c2185b;
+}
+</style>
+</head>
+
+<body>
+
+
+<h1>🧺 My Favorites Basket</h1>
+
+
+<div class="container" id="list"></div>
+
+<script>
+function loadFavorites(){
+
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    let list = document.getElementById("list");
+
+    list.innerHTML = "";
+
+    if(favorites.length === 0){
+        list.innerHTML = "<p>No books saved yet 😢</p>";
+        return;
+    }
+
+    favorites.forEach(book => {
+
+        let div = document.createElement("div");
+        div.className = "book";
+
+        div.innerHTML = `
+            <span>📖 ${book}</span>
+            <div>
+                <button onclick="openBook('${book}')">Read</button>
+                <button class="remove" onclick="removeBook('${book}')">Remove</button>
+            </div>
+        `;
+
+        list.appendChild(div);
+    });
+}
+
+function removeBook(bookName){
+
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    favorites = favorites.filter(b => b !== bookName);
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+
+    loadFavorites();
+}
+
+function openBook(book){
+
+    let pages = {
+        "Sherlock Holmes":"book1.html",
+        "Pride and Prejudice":"book2.html",
+        "Alice in Wonderland":"book3.html",
+        "Dracula":"book4.html",
+        "The Time Machine":"book5.html",
+        "Treasure Island":"book6.html",
+        "The Wonderful Wizard of Oz":"book7.html"
+    };
+
+    window.location.href = pages[book];
+}
+
+loadFavorites();
+</script>
+<a href="Proekt.html">
+    <button class="home-button">🏠 Home</button>
+</a>
+
+</body>
+</html>
